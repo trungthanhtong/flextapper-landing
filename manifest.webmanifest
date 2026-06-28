@@ -1,0 +1,22 @@
+{
+  "name": "FlexTapper",
+  "short_name": "FlexTapper",
+  "description": "Safer visible-offer monitoring and manual confirmation alerts for Amazon Flex drivers.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#f6faf7",
+  "theme_color": "#113d38",
+  "icons": [
+    {
+      "src": "assets/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "assets/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
