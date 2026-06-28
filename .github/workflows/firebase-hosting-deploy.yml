@@ -8,8 +8,6 @@ on:
 
 permissions:
   contents: read
-  checks: write
-  pull-requests: write
 
 concurrency:
   group: firebase-hosting-live
@@ -23,11 +21,35 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v4
 
+      - name: Write Firebase credentials
+        shell: bash
+        env:
+          FIREBASE_SERVICE_ACCOUNT: "${{ secrets.FIREBASE_SERVICE_ACCOUNT_FLEXTAPPER_A9E99 }}"
+        run: |
+          if [[ -z "$FIREBASE_SERVICE_ACCOUNT" ]]; then
+            echo "::error::Missing FIREBASE_SERVICE_ACCOUNT_FLEXTAPPER_A9E99 repository secret"
+            exit 1
+          fi
+
+          service_account_path="$RUNNER_TEMP/firebase-service-account.json"
+          printf '%s' "$FIREBASE_SERVICE_ACCOUNT" > "$service_account_path"
+          echo "GOOGLE_APPLICATION_CREDENTIALS=$service_account_path" >> "$GITHUB_ENV"
+
       - name: Deploy to Firebase Hosting
-        uses: FirebaseExtended/action-hosting-deploy@v0
-        with:
-          repoToken: "${{ secrets.GITHUB_TOKEN }}"
-          firebaseServiceAccount: "${{ secrets.FIREBASE_SERVICE_ACCOUNT_FLEXTAPPER_A9E99 }}"
-          projectId: flextapper-a9e99
-          channelId: live
-          firebaseToolsVersion: 14.7.0
+        shell: bash
+        run: |
+          set +e
+          npx firebase-tools@latest deploy --only hosting --project flextapper-a9e99 --json 2>&1 | tee "$RUNNER_TEMP/firebase-deploy.log"
+          deploy_status=${PIPESTATUS[0]}
+          set -e
+
+          if [[ "$deploy_status" -eq 0 ]]; then
+            exit 0
+          fi
+
+          if grep -Fq "is the current active version" "$RUNNER_TEMP/firebase-deploy.log"; then
+            echo "Firebase Hosting reported this version is already active; treating deploy as successful."
+            exit 0
+          fi
+
+          exit "$deploy_status"
