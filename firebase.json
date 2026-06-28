@@ -5,6 +5,11 @@
       "firebase.json",
       ".firebaserc",
       "**/.*",
+      "**/.*/**",
+      ".git/**",
+      ".github/**",
+      ".firebase/**",
+      ".playwright-cli/**",
       "**/node_modules/**",
       "**/*.log",
       "**/*.md"
