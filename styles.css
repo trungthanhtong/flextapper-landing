@@ -162,6 +162,7 @@ select {
 
 .nav-toggle {
   display: none;
+  place-content: center;
   width: 44px;
   height: 44px;
   border: 0;
@@ -172,6 +173,7 @@ select {
 }
 
 .nav-toggle span {
+  display: block;
   width: 18px;
   height: 2px;
   margin: 4px auto;
@@ -237,7 +239,19 @@ h1 {
   max-width: 720px;
   margin-top: 28px;
   font-size: 72px;
-  font-weight: 800;
+  font-weight: 750;
+}
+
+.hero-title-wordmark {
+  display: block;
+}
+
+.wordmark-flex {
+  color: #069e93;
+}
+
+.wordmark-tapper {
+  color: #113D38;
 }
 
 .hero-lede {
@@ -979,7 +993,7 @@ h1 {
   }
 
   .nav-toggle {
-    display: block;
+    display: grid;
   }
 
   .nav-links {

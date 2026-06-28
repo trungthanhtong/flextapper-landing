@@ -24,9 +24,33 @@ downloads/FlexTapper.apk
 
 Place the production APK at that path before publishing.
 
-## Deployment
+## Firebase Deployment
 
-This repo is static. Deploy the folder to any static host, including Cloudflare Pages, Netlify, Vercel static output, S3, Firebase Hosting, or a simple Nginx server.
+This repo is static and deploys directly from the repository root to Firebase Hosting.
+
+Project:
+
+```txt
+flextapper-a9e99
+```
+
+Manual deploy:
+
+```sh
+firebase deploy --only hosting
+```
+
+Auto deploy:
+
+- Pushes to `main` run `.github/workflows/firebase-hosting-deploy.yml`.
+- The workflow deploys to the Firebase Hosting live channel.
+- GitHub must have this repository secret:
+
+```txt
+FIREBASE_SERVICE_ACCOUNT_FLEXTAPPER_A9E99
+```
+
+That secret should contain the JSON key for a Firebase/GCP service account with permission to deploy Firebase Hosting for `flextapper-a9e99`.
 
 Update these values before launch:
 
