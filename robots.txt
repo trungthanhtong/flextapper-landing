@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://flextapper.app/sitemap.xml
+Sitemap: https://flextapper.com/sitemap.xml

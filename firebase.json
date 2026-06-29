@@ -16,6 +16,18 @@
     ],
     "cleanUrls": true,
     "trailingSlash": false,
+    "redirects": [
+      {
+        "source": "/downloads/FlexTapper.apk",
+        "destination": "https://downloads.flextapper.com/latest/FlexTapper.apk",
+        "type": 302
+      },
+      {
+        "source": "/downloads/metadata.json",
+        "destination": "https://downloads.flextapper.com/latest/metadata.json",
+        "type": 302
+      }
+    ],
     "headers": [
       {
         "source": "index.html",

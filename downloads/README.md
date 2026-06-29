@@ -1,9 +1,15 @@
-# APK download
+# APK download redirect
 
-Place the production Android build here as:
+The landing page keeps this URL for the download CTA:
 
-```sh
-downloads/FlexTapper.apk
+```txt
+/downloads/FlexTapper.apk
 ```
 
-The landing page CTA points to that path by default.
+Firebase Hosting redirects it to:
+
+```txt
+https://downloads.flextapper.com/latest/FlexTapper.apk
+```
+
+Do not commit APK binaries to this repo. The Android repo publishes signed APKs and metadata to Cloudflare R2.

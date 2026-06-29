@@ -16,13 +16,28 @@ http://127.0.0.1:4173/
 
 ## APK Download
 
-The primary CTA points to:
+The primary CTA points to the branded Firebase path:
 
 ```txt
-downloads/FlexTapper.apk
+/downloads/FlexTapper.apk
 ```
 
-Place the production APK at that path before publishing.
+Firebase Hosting redirects that path to:
+
+```txt
+https://downloads.flextapper.com/latest/FlexTapper.apk
+```
+
+The release panel reads the branded Firebase path:
+
+```txt
+/downloads/metadata.json
+```
+
+Firebase redirects that to `https://downloads.flextapper.com/latest/metadata.json`.
+
+The Android repo publishes both files from `.github/workflows/release-apk.yml`.
+See `docs/download-metadata.md` for the metadata schema.
 
 ## Firebase Deployment
 
@@ -57,7 +72,7 @@ Update these values before launch:
 - `SITE_URL` in `main.js`
 - canonical, Open Graph, Twitter, robots, and sitemap URLs
 - `CONTACT_EMAIL` in `main.js`
-- `downloads/FlexTapper.apk`
+- Cloudflare R2 custom domain and CORS for `downloads.flextapper.com`
 
 ## Verification
 
