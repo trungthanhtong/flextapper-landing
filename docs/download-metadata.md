@@ -9,14 +9,34 @@ https://downloads.flextapper.com/latest/FlexTapper.apk
 https://downloads.flextapper.com/latest/metadata.json
 ```
 
-Firebase Hosting also redirects the branded path:
+Firebase Hosting uses these branded paths:
 
 ```txt
+https://flextapper.com/download
 https://flextapper.com/downloads/FlexTapper.apk
-https://flextapper.com/downloads/metadata.json
+https://flextapper.com/api/releases/android/latest.json
 ```
 
-to the R2 URLs.
+`/download` is the human-facing page. `/downloads/FlexTapper.apk` redirects to the latest APK. `/api/releases/android/latest.json` redirects to the latest metadata JSON.
+
+The old public metadata URL redirects to the download page:
+
+```txt
+https://flextapper.com/downloads/metadata.json -> https://flextapper.com/download
+```
+
+## Cloudflare Access
+
+The metadata request must be public to browser `fetch()` calls. If Cloudflare Zero Trust / Access protects `downloads.flextapper.com`, add a Bypass policy for the public download objects or remove Access protection from that hostname.
+
+Public paths needed by the site:
+
+```txt
+https://downloads.flextapper.com/latest/metadata.json
+https://downloads.flextapper.com/latest/FlexTapper.apk
+```
+
+Cloudflare's Access docs describe Bypass policies for public endpoints: https://developers.cloudflare.com/cloudflare-one/access-controls/policies/common-policies/
 
 ## Metadata shape
 
@@ -55,10 +75,11 @@ Then open:
 
 ```txt
 http://127.0.0.1:4173/
+http://127.0.0.1:4173/download.html
 ```
 
 Local preview skips the live metadata request by default. To force the metadata fetch during local testing, open:
 
 ```txt
-http://127.0.0.1:4173/?release-metadata
+http://127.0.0.1:4173/download.html?release-metadata
 ```

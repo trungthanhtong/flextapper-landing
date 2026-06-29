@@ -16,7 +16,15 @@ http://127.0.0.1:4173/
 
 ## APK Download
 
-The primary CTA points to the branded Firebase path:
+The primary CTA points to the human-facing download page:
+
+```txt
+/download
+```
+
+That page shows version, update time, and release notes before linking to the APK.
+
+The direct APK path remains:
 
 ```txt
 /downloads/FlexTapper.apk
@@ -28,13 +36,19 @@ Firebase Hosting redirects that path to:
 https://downloads.flextapper.com/latest/FlexTapper.apk
 ```
 
-The release panel reads the branded Firebase path:
+The release panel reads the branded metadata API path:
 
 ```txt
-/downloads/metadata.json
+/api/releases/android/latest.json
 ```
 
 Firebase redirects that to `https://downloads.flextapper.com/latest/metadata.json`.
+
+The old public metadata path redirects to the download page:
+
+```txt
+/downloads/metadata.json -> /download
+```
 
 The Android repo publishes both files from `.github/workflows/release-apk.yml`.
 See `docs/download-metadata.md` for the metadata schema.

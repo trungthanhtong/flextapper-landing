@@ -1,12 +1,18 @@
+const LOCAL_HOSTS = new Set(["localhost", "127.0.0.1", "::1"]);
+const IS_LOCAL_PREVIEW = LOCAL_HOSTS.has(window.location.hostname);
+const DOWNLOAD_PAGE_URL = IS_LOCAL_PREVIEW ? "/download.html" : "/download";
 const DEFAULT_APK_URL = "/downloads/FlexTapper.apk";
-const RELEASE_METADATA_URL = "/downloads/metadata.json";
+const RELEASE_METADATA_URL = IS_LOCAL_PREVIEW
+  ? "https://downloads.flextapper.com/latest/metadata.json"
+  : "/api/releases/android/latest.json";
 const CONTACT_EMAIL = "support@flextapper.com";
 const SITE_URL = "https://flextapper.com";
 
 const header = document.querySelector("[data-header]");
 const navToggle = document.querySelector("[data-nav-toggle]");
 const navMenu = document.querySelector("[data-nav-menu]");
-const apkLinks = document.querySelectorAll("[data-apk-link]");
+const downloadPageLinks = document.querySelectorAll("[data-download-page-link], [data-apk-link]");
+const apkDirectLinks = document.querySelectorAll("[data-apk-direct-link]");
 const contactLinks = document.querySelectorAll("[data-contact-link]");
 const yearNode = document.querySelector("[data-current-year]");
 const releaseStatus = document.querySelector("[data-release-status]");
@@ -42,17 +48,30 @@ function openMobileNav() {
 function setApkUrl(url) {
   if (!url) return;
   currentApkUrl = url;
-  apkLinks.forEach((link) => {
+  apkDirectLinks.forEach((link) => {
     link.href = currentApkUrl;
   });
 }
 
-apkLinks.forEach((link) => {
-  link.href = currentApkUrl;
+downloadPageLinks.forEach((link) => {
+  link.href = DOWNLOAD_PAGE_URL;
   link.addEventListener("click", () => {
     window.dispatchEvent(new CustomEvent("flextapper:cta", {
       detail: {
         action: link.dataset.cta || "download",
+        href: DOWNLOAD_PAGE_URL,
+        siteUrl: SITE_URL
+      }
+    }));
+  });
+});
+
+apkDirectLinks.forEach((link) => {
+  link.href = currentApkUrl;
+  link.addEventListener("click", () => {
+    window.dispatchEvent(new CustomEvent("flextapper:cta", {
+      detail: {
+        action: link.dataset.cta || "apk-download",
         href: currentApkUrl,
         siteUrl: SITE_URL
       }
@@ -131,11 +150,9 @@ async function loadReleaseMetadata() {
 }
 
 function shouldFetchReleaseMetadata() {
-  const localHosts = new Set(["localhost", "127.0.0.1", "::1"]);
-  const isLocalPreview = localHosts.has(window.location.hostname);
   const forceLocalFetch = new URLSearchParams(window.location.search).has("release-metadata");
 
-  return !isLocalPreview || forceLocalFetch;
+  return !IS_LOCAL_PREVIEW || forceLocalFetch;
 }
 
 function applyReleaseMetadata(metadata) {

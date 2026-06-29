@@ -23,8 +23,13 @@
         "type": 302
       },
       {
-        "source": "/downloads/metadata.json",
+        "source": "/api/releases/android/latest.json",
         "destination": "https://downloads.flextapper.com/latest/metadata.json",
+        "type": 302
+      },
+      {
+        "source": "/downloads/metadata.json",
+        "destination": "/download",
         "type": 302
       }
     ],
