@@ -941,9 +941,31 @@ h1 {
   padding-top: 18px;
 }
 
+.release-checksum summary {
+  cursor: pointer;
+  color: #eafff5;
+  font-weight: 800;
+  list-style-position: inside;
+  border-radius: 6px;
+  width: fit-content;
+}
+
+.release-checksum summary::marker {
+  color: var(--accent);
+}
+
+.release-checksum summary:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 4px;
+}
+
 .release-checksum span,
 .release-checksum code {
   display: block;
+}
+
+.release-checksum span {
+  margin-top: 14px;
 }
 
 .release-checksum code {
